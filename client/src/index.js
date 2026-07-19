@@ -14,7 +14,6 @@ Write two variables that keep track of the player and computer scores
 - Name them humanScore and computerScore in a global scope
 - And give them a starting value of 0
 
-----------------------------------------------------------
 
 Write the logic to play a single round
 - Meaning the game will be played round by round 
@@ -25,56 +24,72 @@ Write the logic to play a single round
 - Write code in the playRound function to alert out a string value like "You lose! Paper beats Rock"
 - Increment the humanScore or computerScore variable based on the round winner ofc 
 
+
 Write the logic to play the entire game
 - The game will play 5 rounds I will write a function named playGame that calles the playRound to play 5 rounds and keeps track of the scores and declares a winner at the end
 - Create function name playGame
 - Move the playRound function and score variables so that they declared inside of the new playGame function
 - Play 5 rounds by calling playRound 5 times
 
+----------------------------------------------------------
 */
 
-let humanScore = 0;
-let computerScore = 0;
 
-const getComputerChoice = () => {
-    let botchoices = ["rock", "paper", "scissors"];
-    let botRandomchoice = botchoices[Math.floor(Math.random() * botchoices.length)];
-    return botRandomchoice;
-    //alert(botRandomchoice);
-};
+const playGame = () => {
 
-//getComputerChoice();
+    let humanScore = 0;
+    let computerScore = 0;
+    let totalRounds = 6;
 
-const getHumanChoice = () => {
-    let userChoice = prompt("Enter either rock, paper, or scissors");
-    return userChoice;
-    //alert(userChoice);
-};
+    const getComputerChoice = () => {
+        let botchoices = ["rock", "paper", "scissors"];
+        let botRandomchoice = botchoices[Math.floor(Math.random() * botchoices.length)];
+        return botRandomchoice;
+    };
 
-//getHumanChoice();
+    const getHumanChoice = () => {
+        let userChoice = prompt("Enter either rock, paper, or scissors");
+        return userChoice;
+    };
 
-const playRound = (humanChoice, computerChoice) => {
-    const rules = [
-        {"choice": "rock", "beats": "scissors", "losesTo": "paper"},
-        {"choice": "paper", "beats": "rock", "losesTo": "scissors"},
-        {"choice": "scissors", "beats": "paper", "losesTo": "rock"}
-    ];
+    const playRound = (humanChoice, computerChoice) => {
+        const rules = [
+            { "choice": "rock", "beats": "scissors", "losesTo": "paper" },
+            { "choice": "paper", "beats": "rock", "losesTo": "scissors" },
+            { "choice": "scissors", "beats": "paper", "losesTo": "rock" }
+        ];
 
-    humanChoice = getHumanChoice();
-    computerChoice = getComputerChoice();
+        humanChoice = getHumanChoice();
+        computerChoice = getComputerChoice();
 
-    let userCaseValid = humanChoice.toLowerCase();
+        let userCaseValid = humanChoice.toLowerCase();
 
-    let checkHumanChoice = rules.find(r => r.choice === userCaseValid);
-    let checkComputerChoice = rules.find(r => r.choice === computerChoice);
+        let checkHumanChoice = rules.find(r => r.choice === userCaseValid);
+        let checkComputerChoice = rules.find(r => r.choice === computerChoice);
 
-    if (checkHumanChoice.choice === checkComputerChoice.choice) {
-        alert("Tie");
-    } else if (checkHumanChoice.beats === checkComputerChoice.choice) {
-        alert(`Player Wins! ${userCaseValid} beats ${computerChoice}`);
+        if (checkHumanChoice.choice === checkComputerChoice.choice) {
+            alert("Tie");
+        } else if (checkHumanChoice.beats === checkComputerChoice.choice) {
+            humanScore += 1;
+            alert(`Player Wins! ${userCaseValid} beats ${computerChoice}`);
+        } else {
+            computerScore += 1;
+            alert(`Computer Wins! ${computerChoice} beats ${userCaseValid}`);
+        };
+    };
+
+    for (let i = 1; i < totalRounds; i++) {
+        alert(`Round ${[i]}`);
+        playRound();
+    };
+
+    if (humanScore === computerScore) {
+        alert(`AFTER 5 ROUNDS IT WAS A TIE!: Player Score ${humanScore} VS Computer Score ${computerScore}`);
+    } else if (humanScore > computerScore) {
+        alert(`AFTER 5 ROUNDS THE PLAYER WON!: Player Score ${humanScore} VS Computer Score ${computerScore}`);
     } else {
-        alert(`Computer Wins! ${computerChoice} beats ${userCaseValid}`);
+        alert(`AFTER 5 ROUNDS THE COMPUTER WON!: Player Score ${humanScore} VS Computer Score ${computerScore}`);
     };
 };
 
-playRound();
+playGame();
